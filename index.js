@@ -6,11 +6,32 @@ require('util')._logN = function() { }
 
 //given a path to a pdf
 //turn it into a json structure
-module.exports = function(path, cb) {
+
+// maxpages is optional
+
+module.exports = function(path, maxpages, cb) {
+	
+	// From https://gist.github.com/klovadis/2549131
+	// retrieve arguments as array
+    var args = [];
+    for (var i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
+    }
+
+	path = args.shift();
+	cb = args.pop();
+	
+	if (args.length > 0) maxpages = args.shift(); else maxpages = null;
+
+
   var parser = new Parser()
   parser.on('pdfParser_dataReady', function(result) {
 
     var text = []
+
+	if (maxpages) {
+		result.data.Pages = result.data.Pages.slice(0,maxpages);
+	}
 
     //get text on a particular page
     result.data.Pages.forEach(function(page) {
