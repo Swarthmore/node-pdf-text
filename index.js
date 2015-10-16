@@ -21,8 +21,12 @@ module.exports = function(path, maxpages, cb) {
 	path = args.shift();
 	cb = args.pop();
 	
-	if (args.length > 0) maxpages = args.shift(); else maxpages = null;
 
+	if (args.length > 0) {maxpages = args.shift();} else {maxpages = null;}
+
+	console.log("Path: " + path);
+	console.log("max_pages: " + maxpages);
+	
 
   var parser = new Parser()
   parser.on('pdfParser_dataReady', function(result) {
